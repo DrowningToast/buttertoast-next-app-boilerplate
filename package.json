@@ -9,18 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-hook/resize-observer": "^1.2.5",
+    "@react-three/cannon": "^6.3.0",
+    "@react-three/drei": "^9.14.3",
+    "@react-three/fiber": "^8.0.27",
+    "@react-three/flex": "^1.0.0",
+    "@react-three/postprocessing": "^2.3.3",
     "daisyui": "^2.17.0",
     "framer-motion": "^6.3.16",
     "next": "12.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.33.0",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "three": "^0.141.0",
+    "use-cannon": "^0.5.3"
   },
   "devDependencies": {
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
+    "@types/three": "^0.141.0",
     "autoprefixer": "^10.4.7",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",

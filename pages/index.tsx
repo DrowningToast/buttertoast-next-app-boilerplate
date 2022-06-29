@@ -28,16 +28,20 @@ const Home: NextPage = () => {
         className="grid place-items-center h-screen"
       >
         <div className="flex flex-col gap-y-6 items-center">
-          <h1 className="text-6xl mb-16">Buttertoast Base Setup</h1>
+          <h1 className="text-6xl mb-16">Buttertoast 3D Setup</h1>
           <h2 className="text-4xl mb-4">Powered by</h2>
-          <ul>
+          <ul className="my-8">
             <li>Next js</li>
             <li>Tailwind CSS</li>
             <li>Sass</li>
             <li>Framer Motion</li>
             <li>DaisyUI</li>
-            <li></li>
+            <li>React three fiber</li>
+            <li>React three cannon</li>
           </ul>
+          <a href="/demo" className="link">
+            3D Demo here
+          </a>
         </div>
       </motion.main>
     </>
