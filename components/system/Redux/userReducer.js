@@ -2,6 +2,7 @@ import { UPDATE_USER_INFO } from "./actionTypes";
 
 let initialState = {
   user: null,
+  fitness: 0,
 };
 
 let Reducer = (state = initialState, action) => {
