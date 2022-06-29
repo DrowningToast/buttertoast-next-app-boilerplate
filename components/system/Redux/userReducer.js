@@ -25,13 +25,7 @@ let Reducer = (state = initialState, action) => {
         fitness,
       };
       break;
-      return {
-        ...state,
-        Gameplay: {
-          ...state.Gameplay,
-          details: {},
-        },
-      };
+
     default:
       return state;
   }
