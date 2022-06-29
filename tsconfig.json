@@ -5,7 +5,7 @@
       "@public/*": ["public/*"],
       "@components/*": ["components/*"],
       "@fb/*": ["components/system/firebase/*"],
-      "@jotai/*": ["components/system/jotai/*"]
+      "@redux/*": ["components/system/redux/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

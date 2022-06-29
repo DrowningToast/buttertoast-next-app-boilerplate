@@ -1,24 +1,54 @@
-import {
-  firebaseReady,
-  firebaseUserAtom,
-} from "@components/system/jotai/store";
+import axios from "axios";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   getIdToken,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
   User,
 } from "firebase/auth";
-import { useAtom } from "jotai";
+import {
+  updateUserIdToken,
+  updateUserInfo,
+} from "@components/system/redux/action";
 import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
+import store from "../redux/store";
 import app from "./app";
+import { useSelector } from "react-redux";
+import { initState } from "../redux/userReducer";
 
 export const auth = getAuth(app);
+
+onAuthStateChanged(auth, async (user) => {
+  // Load account data from firebase auth to redux state
+  if (user) {
+    const token = await getFirebaseToken();
+    // Setup default header
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    store.dispatch(updateUserIdToken(token));
+    // Fetch data from backend if the backend url is detected
+    if (process.env.NEXT_PUBLIC_backend_url) {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_backend_url}/user/${user.email}`
+        );
+        store.dispatch(updateUserInfo({ ...user, ...response.data }));
+      } catch (e) {
+        console.log(e);
+        store.dispatch(updateUserInfo({ ...user }));
+      }
+    } else {
+      store.dispatch(updateUserInfo({ ...user }));
+    }
+  } else {
+    store.dispatch(updateUserInfo(null));
+  }
+});
 
 // A function which takes a string and return a promise | Resolve the given string if the string doesn't contain any forbidden char and reject if does
 export const sanitizeInput = (unknown: string, type = typeof "a") => {
@@ -158,24 +188,24 @@ export const SignOut = async () => {
  * @param {String} props.path
  */
 export const ConditionalRedirect: FC<{
-  cb: (fbProfile: User | null, ready: boolean) => boolean;
+  cb: (fbProfile: User | null) => boolean;
   path: string;
 }> = ({
   cb,
   path,
 }: {
-  cb: (fbProfile: User | null, ready: boolean) => boolean;
+  cb: (fbProfile: User | null) => boolean;
   path: string;
 }) => {
-  const [fbProfile] = useAtom<User | null>(firebaseUserAtom);
-  const [ready] = useAtom<boolean>(firebaseReady);
+  const fbProfile = useSelector<initState, User | null>((state) => state.user);
+
   const router = useRouter();
 
   useEffect(() => {
-    if (cb(fbProfile, ready)) {
+    if (cb(fbProfile)) {
       router.push(path);
     }
-  }, [fbProfile, ready]);
+  }, [fbProfile]);
 
   return null;
 };
@@ -223,4 +253,12 @@ export const signinWithGooglePopUp = () => {
         reject(err);
       });
   });
+};
+
+export const refreshIdToken = async () => {
+  if (auth.currentUser) {
+    const token = await getFirebaseToken();
+    store.dispatch(updateUserIdToken(token));
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
 };
