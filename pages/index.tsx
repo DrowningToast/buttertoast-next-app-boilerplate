@@ -1,8 +1,40 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { motion } from "framer-motion";
+import Email from "@components/forms/Email/Email";
+import Password from "@components/forms/Password/Password";
+import Submit from "@components/forms/Submit/Submit";
+import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  handleLoginWithEmail,
+  SignOut,
+} from "@components/system/firebase/auth";
+import { useAtom } from "jotai";
+import {
+  firebaseReady,
+  firebaseUserAtom,
+} from "@components/system/jotai/store";
+import { rejects } from "assert";
+
+type formValue = {
+  email: string;
+  password: string;
+};
 
 const Home: NextPage = () => {
+  const { register, handleSubmit } = useForm<formValue>();
+  const [user] = useAtom(firebaseUserAtom);
+  const [userReady] = useAtom(firebaseReady);
+
+  const handleLogin = async (data: formValue) => {
+    try {
+      await handleLoginWithEmail(data.email, data.password);
+      alert("Sucessfully signed in");
+    } catch (e) {
+      alert(e);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -29,7 +61,7 @@ const Home: NextPage = () => {
       >
         <div className="flex flex-col gap-y-6 items-center">
           <h1 className="text-6xl mb-16">
-            Buttertoast Base Setup with HTTP & Jotai
+            Buttertoast Base Setup with Firebase & Jotai
           </h1>
           <h2 className="text-4xl mb-4">Powered by</h2>
           <ul>
@@ -40,7 +72,63 @@ const Home: NextPage = () => {
             <li>DaisyUI</li>
             <li>Axios</li>
             <li>Jotai</li>
+            <li>Firebase</li>
           </ul>
+          {userReady && !user && (
+            <form onSubmit={handleSubmit(handleLogin)}>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Your Email</span>
+                </label>
+                <label className="input-group">
+                  <span>Email</span>
+                  <Email
+                    r={register("email", {
+                      required: true,
+                    })}
+                    placeholder="info@site.com"
+                    ClassName="input input-bordered w-full"
+                  />
+                </label>
+                <label className="label">
+                  <span className="label-text">Your password</span>
+                </label>
+                <label className="input-group">
+                  <span>Password</span>
+                  <Password
+                    r={register("password", {
+                      required: true,
+                    })}
+                    placeholder="Secret Password~"
+                    ClassName="input input-bordered w-full"
+                  />
+                </label>
+                <Submit
+                  text="Login"
+                  noDefaultStyles={false}
+                  ClassName="btn btn-primary my-8"
+                ></Submit>
+              </div>
+            </form>
+          )}
+          {userReady && user && (
+            <>
+              <div>Currently logged in</div>
+              <button
+                className="btn btn-accent"
+                onClick={async () => {
+                  try {
+                    await SignOut();
+                    alert("Sucessfully signed out");
+                  } catch (e) {
+                    alert(e);
+                  }
+                }}
+              >
+                Signout
+              </button>{" "}
+            </>
+          )}
         </div>
       </motion.main>
     </>

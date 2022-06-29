@@ -4,8 +4,8 @@
     "paths": {
       "@public/*": ["public/*"],
       "@components/*": ["components/*"],
-      "@fb/*": ["sys/firebase/*"],
-      "@jotai/*": ["sys/jotai/*"]
+      "@fb/*": ["components/system/firebase/*"],
+      "@jotai/*": ["components/system/jotai/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
