@@ -28,7 +28,9 @@ const Home: NextPage = () => {
         className="grid place-items-center h-screen"
       >
         <div className="flex flex-col gap-y-6 items-center">
-          <h1 className="text-6xl mb-16">Buttertoast Base Setup</h1>
+          <h1 className="text-6xl mb-16">
+            Buttertoast Base Setup with HTTP & Jotai
+          </h1>
           <h2 className="text-4xl mb-4">Powered by</h2>
           <ul>
             <li>Next js</li>
@@ -36,7 +38,8 @@ const Home: NextPage = () => {
             <li>Sass</li>
             <li>Framer Motion</li>
             <li>DaisyUI</li>
-            <li></li>
+            <li>Axios</li>
+            <li>Jotai</li>
           </ul>
         </div>
       </motion.main>
