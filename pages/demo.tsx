@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   AdaptiveDpr,
-
   Environment,
   Float,
   Loader,
