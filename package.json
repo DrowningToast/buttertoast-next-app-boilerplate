@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "daisyui": "^2.17.0",
     "framer-motion": "^6.3.16",
     "jotai": "^1.7.2",
