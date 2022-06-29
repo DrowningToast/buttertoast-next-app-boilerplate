@@ -9,6 +9,9 @@ import {
   handleLoginWithEmail,
   SignOut,
 } from "@components/system/firebase/auth";
+import { useSelector } from "react-redux";
+import { initState } from "@components/system/redux/userReducer";
+import { User } from "firebase/auth";
 
 type formValue = {
   email: string;
@@ -17,6 +20,7 @@ type formValue = {
 
 const Home: NextPage = () => {
   const { register, handleSubmit } = useForm<formValue>();
+  const user = useSelector<initState, User | null>((state) => state.user);
 
   const handleLogin = async (data: formValue) => {
     try {
@@ -65,7 +69,7 @@ const Home: NextPage = () => {
             <li>Axios</li>
             <li>Redux</li>
           </ul>
-          {userReady && !user && (
+          {!user && (
             <form onSubmit={handleSubmit(handleLogin)}>
               <div className="form-control">
                 <label className="label">
@@ -102,7 +106,7 @@ const Home: NextPage = () => {
               </div>
             </form>
           )}
-          {userReady && user && (
+          {user && (
             <>
               <div>Currently logged in</div>
               <button
