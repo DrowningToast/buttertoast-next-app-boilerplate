@@ -1,13 +1,13 @@
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
-import AuthUpdate from "@components/system/firebase/components/AuthUpdater";
+import { Provider } from "react-redux";
+import store from "@components/system/redux/store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <AuthUpdate />
+    <Provider store={store}>
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }
 

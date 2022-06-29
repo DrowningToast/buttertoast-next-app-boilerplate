@@ -9,12 +9,6 @@ import {
   handleLoginWithEmail,
   SignOut,
 } from "@components/system/firebase/auth";
-import { useAtom } from "jotai";
-import {
-  firebaseReady,
-  firebaseUserAtom,
-} from "@components/system/jotai/store";
-import { rejects } from "assert";
 
 type formValue = {
   email: string;
@@ -23,8 +17,6 @@ type formValue = {
 
 const Home: NextPage = () => {
   const { register, handleSubmit } = useForm<formValue>();
-  const [user] = useAtom(firebaseUserAtom);
-  const [userReady] = useAtom(firebaseReady);
 
   const handleLogin = async (data: formValue) => {
     try {
@@ -61,7 +53,7 @@ const Home: NextPage = () => {
       >
         <div className="flex flex-col gap-y-6 items-center">
           <h1 className="text-6xl mb-16">
-            Buttertoast Base Setup with Firebase & Jotai
+            Buttertoast Base Setup with HTTP & Redux Ready
           </h1>
           <h2 className="text-4xl mb-4">Powered by</h2>
           <ul>
@@ -71,8 +63,7 @@ const Home: NextPage = () => {
             <li>Framer Motion</li>
             <li>DaisyUI</li>
             <li>Axios</li>
-            <li>Jotai</li>
-            <li>Firebase</li>
+            <li>Redux</li>
           </ul>
           {userReady && !user && (
             <form onSubmit={handleSubmit(handleLogin)}>
